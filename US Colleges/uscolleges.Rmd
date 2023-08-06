@@ -1,0 +1,101 @@
+---
+title: "US Colleges Data Analysis"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Usage of ggplot and Linear Regression Model to Answer the following questions:
+
+1.  Do colleges with larger full time enrollments have lower graduation rates?
+
+2.  Is this different for public and private institutions?
+
+3.  If it is different for more selective schools?
+
+**Know the Dataset**
+
+```{r}
+?College
+glimpse(College)
+```
+
+**Exploratory Graphics to view Data**
+
+```{r}
+ggplot(College,aes(x=Grad.Rate))+geom_histogram() #Note Outlier
+```
+
+Making new filtered data frame to see suspicious college Grad rates
+
+```{r}
+suspicious <- filter(College,Grad.Rate>= 100)
+View(suspicious)
+```
+
+**Analysis for Question 1**
+
+Do colleges with larger full time enrollments have lower graduation rates?
+
+Plotting a scatter plot between full time UG enrollments and Graduation Rates where the full time enrollments are in base 10
+
+making a sub data frame called **college_sm** where the full time UG enrollments are in base 10 with selected attributes
+
+```{r}
+college_sm <- College %>%
+  mutate(log_full=log10(F.Undergrad))%>%
+  select(Grad.Rate,
+         log_full,
+         Private,
+         Top25perc)
+
+view(college_sm)
+```
+
+Plotting and Creating a model
+
+```{r}
+ggplot(College,aes(x=log10(F.Undergrad),y=Grad.Rate))+geom_point()+geom_smooth(method = "lm")
+```
+
+```{r}
+model_undergrad <- lm(Grad.Rate ~ log_full,data=college_sm)
+summary(model_undergrad)
+```
+
+The High p value and the flat line in the LR plot tells that maybe **full time undergradutes dont have a accurate description of the graduation rates.**
+
+**Analysis For Question 2**
+
+Is this different for public and private institutions?
+
+adding a variable aesthetic of color in the scatter plot that differentiates between public and private institutions and adds a lm line to distinguish the trend
+
+plot and model:
+
+```{r}
+ggplot(College,aes(x=log10(F.Undergrad),y=Grad.Rate,color=Private))+geom_point()+geom_smooth(method = "lm",se=FALSE)+scale_color_brewer(palette = 'Dark2')
+
+model_private <- lm(Grad.Rate ~ Private + log_full,data=college_sm)
+summary(model_private)
+```
+
+the low p value and the plot evidently shows that **a private college sees significantly higher grad rates compared to non-private colleges**
+
+**Analysis For Question 3**
+
+If it is different for more selective schools?
+
+does the top25% of the universities make any difference about the graduation rates.
+
+model and plots for the same:
+
+```{r}
+model_top <- lm(Grad.Rate ~ Private+log_full+Top25perc,data=college_sm)
+summary(model_top)
+plot(model_top)
+```
+
+**Summary**
+
+as the p values for the top25% colleges is low hence they provide a accurate attribute for the graduation as well as the private vs public but the full time undergraduate rates dont have any effect on the graduation rate.
