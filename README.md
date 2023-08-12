@@ -6,5 +6,11 @@ This is a repository which contains all my R Workbooks.
 2. [exploratory-data-analysis, Linear Regression] [US_Colleges](https://github.com/tanmaychk/R-workbooks/tree/main/US%20Colleges)
 3. [exploratory-data-analysis, Linear Regression] [Health Insurance](https://github.com/tanmaychk/R-workbooks/tree/main/Health_Insurance)
 
+## Data 
+    
+1. Billboard_top_100 -> [tidytuesday dataset](https://github.com/rfordatascience/tidytuesday/tree/master/data/2021/2021-09-14)
+2. US_Colleges -> [Kaggle](https://www.kaggle.com/datasets/yashgpt/us-college-data)
+3. Health Insurance -> [Kaggle](https://www.kaggle.com/datasets/mirichoi0218/insurance)
+
 -------------------------
 
