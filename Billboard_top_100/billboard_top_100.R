@@ -56,9 +56,9 @@ t.test(valence ~ no1, data=songs)
 
 df <- songs %>% group_by(no1) %>% summarise(avg_val = mean(valence,na.rm=TRUE),var_val = var(valence,na.rm = TRUE))
 
-actual_sd <- sqrt(sum(df$var_val)/2)
+pooled_sd <- sqrt(sum(df$var_val)/2)
 
-cohens_d <- diff(df$avg_val)/actual_sd
+cohens_d <- diff(df$avg_val)/pooled_sd
 cohens_d
 
 #0.083 which is a very small number which essentially says that there is a only a minute difference between the two, no large effect size for no1 songs and songs that are not no1 at their valence or cheerfullness level
